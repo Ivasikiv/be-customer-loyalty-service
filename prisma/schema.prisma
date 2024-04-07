@@ -1,0 +1,297 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator prisma_nestjs_graphql {
+  provider = "prisma-nestjs-graphql"
+  output   = "../src/@generated/prisma-nestjs-graphql"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AssortmentSegment {
+  AssortmentSegmentID   Int             @id @default(autoincrement()) @unique
+  PartnerLocationID     Int
+  AssortmentSegmentType String          @db.VarChar(50)
+  Price                 Float
+  Points                Int
+
+  CreateDate            DateTime        @default(now()) @db.Timestamp(6)
+  UpdateDate            DateTime?       @updatedAt @db.Timestamp(6)
+
+  PartnerLocation       PartnerLocation @relation(fields: [AssortmentSegmentID], references: [LocationID], onDelete: NoAction, onUpdate: NoAction)
+  OrderDetail           OrderDetail[]
+}
+
+model Employee {
+  EmployeeID          Int              @id @default(autoincrement()) @unique
+  PartnerLocationID   Int 
+  FirstName           String           @db.VarChar(50)
+  LastName            String           @db.VarChar(50)
+  Position            String           @db.VarChar(100)
+  BirthDate           DateTime?        @db.Date
+  EmploymentStartDate DateTime         @db.Date
+  EmploymentEndDate   DateTime?        @db.Date
+
+  CreateDate          DateTime         @default(now()) @db.Timestamp(6)
+  UpdateDate          DateTime?        @updatedAt @db.Timestamp(6)
+  
+  PartnerLocation     PartnerLocation  @relation(fields: [PartnerLocationID], references: [LocationID], onDelete: NoAction, onUpdate: NoAction)
+  OrderRecord         OrderRecord[]
+}
+
+model Feedback {
+  FeedbackID        Int              @id @default(autoincrement()) @unique
+  LoyaltyUserID     Int 
+  PartnerLocationID Int 
+  OrderID           Int              @unique
+  FoodQuality       Int 
+  ServiceQuality    Int 
+  OverallImpression Int 
+  Comment           String?
+  FeedbackDate      DateTime         @default(now()) @db.Timestamp(6)
+
+  CreateDate        DateTime         @default(now()) @db.Timestamp(6)
+  UpdateDate        DateTime?        @updatedAt @db.Timestamp(6)
+
+  LoyaltyUser       LoyaltyUser      @relation(fields: [LoyaltyUserID], references: [LoyaltyUserID], onDelete: NoAction, onUpdate: NoAction)
+  OrderRecord       OrderRecord      @relation(fields: [OrderID], references: [OrderID], onDelete: NoAction, onUpdate: NoAction)
+  PartnerLocation   PartnerLocation  @relation(fields: [PartnerLocationID], references: [LocationID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model LoyaltyCard {
+  LoyaltyCardID           Int                       @id @default(autoincrement()) @unique
+  LoyaltyUserID           Int 
+  LoyaltyCardTypeID       Int 
+  CardNumber              String                    @db.VarChar(20) @unique
+  CurrentBalance          Int                       @default(0)
+  FirstUsage              DateTime?                 @db.Timestamp(6)
+  LastUsage               DateTime?                 @db.Timestamp(6)
+  Status                  String                    @db.VarChar(20)
+
+  CreateDate              DateTime                  @default(now()) @db.Timestamp(6)
+  UpdateDate              DateTime?                 @updatedAt @db.Timestamp(6)
+
+  LoyaltyCardType         LoyaltyCardType           @relation(fields: [LoyaltyCardTypeID], references: [LoyaltyCardTypeID], onDelete: NoAction, onUpdate: NoAction)
+  LoyaltyUser             LoyaltyUser               @relation(fields: [LoyaltyUserID], references: [LoyaltyUserID], onDelete: NoAction, onUpdate: NoAction)
+  LoyaltyPoint            LoyaltyPoint[]
+  OrderRecord             OrderRecord[]
+  PointTransaction        PointTransaction[]
+  PromoCampaignRedemption PromoCampaignRedemption[]
+}
+
+model LoyaltyCardType {
+  LoyaltyCardTypeID  Int           @id @default(autoincrement()) @unique
+  DiscountPercentage Decimal       @db.Decimal(5, 2)
+  TypeName           String        @db.VarChar(50)
+  Description        String
+
+  CreateDate         DateTime      @default(now()) @db.Timestamp(6)
+  UpdateDate         DateTime?     @updatedAt @db.Timestamp(6)
+
+  LoyaltyCard        LoyaltyCard[]
+}
+
+model LoyaltyPoint {
+  LoyaltyPointID     Int                @id @default(autoincrement()) @unique
+  LoyaltyCardID      Int 
+  PointTransactionID Int                @unique
+  PolicyID           Int 
+  PointsAmount       Int 
+  AccrualDateTime    DateTime           @default(now()) @db.Timestamp(6)
+  WithdrawalDateTime DateTime?          @default(now()) @db.Timestamp(6)
+
+  CreateDate         DateTime           @default(now()) @db.Timestamp(6)
+  UpdateDate         DateTime?          @updatedAt @db.Timestamp(6)
+
+  LoyaltyCard        LoyaltyCard        @relation(fields: [LoyaltyCardID], references: [LoyaltyCardID], onDelete: NoAction, onUpdate: NoAction)
+  PointTransaction   PointTransaction   @relation(fields: [PointTransactionID], references: [PointTransactionID], onDelete: NoAction, onUpdate: NoAction)
+  PointExpiryPolicy  PointExpiryPolicy  @relation(fields: [PolicyID], references: [PolicyID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model LoyaltyUser {
+  LoyaltyUserID Int            @id @default(autoincrement()) @unique
+  FirstName     String         @db.VarChar(50)
+  LastName      String         @db.VarChar(50)
+  Email         String         @db.VarChar(100) @unique
+  Phone         String?        @db.VarChar(12)  @unique
+  Address       String?        @db.VarChar(255)
+  BirthDate     DateTime?      @db.Date
+
+  CreateDate    DateTime       @default(now()) @db.Timestamp(6)
+  UpdateDate    DateTime?      @updatedAt @db.Timestamp(6)
+
+  Feedback      Feedback[]
+  LoyaltyCard   LoyaltyCard[]
+  Notification  Notification[]
+}
+
+model Notification {
+  NotificationID     Int               @id @default(autoincrement()) @unique
+  LoyaltyUserID      Int 
+  NotificationTypeID Int 
+  Content            String 
+  NotificationStatus String            @db.VarChar(16)
+  SentDateTime       DateTime          @default(now()) @db.Timestamp(6)
+
+  CreateDate         DateTime          @default(now()) @db.Timestamp(6)
+  UpdateDate         DateTime?         @updatedAt @db.Timestamp(6)
+
+  LoyaltyUser        LoyaltyUser       @relation(fields: [LoyaltyUserID], references: [LoyaltyUserID], onDelete: NoAction, onUpdate: NoAction)
+  NotificationType   NotificationType  @relation(fields: [NotificationTypeID], references: [NotificationTypeID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model NotificationType {
+  NotificationTypeID Int            @id @default(autoincrement()) @unique
+  TypeName           String         @db.VarChar(50)
+  Description        String 
+
+  CreateDate         DateTime       @default(now()) @db.Timestamp(6)
+  UpdateDate         DateTime?      @updatedAt @db.Timestamp(6)
+
+  Notification       Notification[]
+}
+
+model OrderDetail {
+  OrderDetailID       Int                @id @default(autoincrement()) @unique
+  OrderID             Int 
+  AssortmentSegmentID Int 
+  PromoCampaignID     Int 
+  Quantity            Int 
+  Price               Float 
+
+  CreateDate          DateTime           @default(now()) @db.Timestamp(6)
+  UpdateDate          DateTime?          @updatedAt @db.Timestamp(6)
+
+  AssortmentSegment   AssortmentSegment  @relation(fields: [AssortmentSegmentID], references: [AssortmentSegmentID], onDelete: NoAction, onUpdate: NoAction)
+  OrderRecord         OrderRecord        @relation(fields: [OrderID], references: [OrderID], onDelete: NoAction, onUpdate: NoAction)
+  PromoCampaign       PromoCampaign      @relation(fields: [PromoCampaignID], references: [PromoCampaignID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model OrderRecord {
+  OrderID          Int                @id @default(autoincrement()) @unique
+  LoyaltyCardID    Int 
+  LocationID       Int 
+  OrderTypeID      Int 
+  SellerID         Int 
+  PaymentMethod    String?            @db.VarChar(20)
+  OrderDateTime    DateTime           @default(now()) @db.Timestamp(6)
+
+  CreateDate       DateTime           @default(now()) @db.Timestamp(6)
+  UpdateDate       DateTime?          @updatedAt @db.Timestamp(6)
+
+  Feedback         Feedback?
+  OrderDetail      OrderDetail[]
+  PartnerLocation  PartnerLocation    @relation(fields: [LocationID], references: [LocationID], onDelete: NoAction, onUpdate: NoAction)
+  LoyaltyCard      LoyaltyCard        @relation(fields: [LoyaltyCardID], references: [LoyaltyCardID], onDelete: NoAction, onUpdate: NoAction)
+  OrderType        OrderType          @relation(fields: [OrderTypeID], references: [OrderTypeID], onDelete: NoAction, onUpdate: NoAction)
+  Employee         Employee           @relation(fields: [SellerID], references: [EmployeeID], onDelete: NoAction, onUpdate: NoAction)
+  PointTransaction PointTransaction[]
+}
+
+model OrderType {
+  OrderTypeID Int           @id @default(autoincrement()) @unique
+  TypeName    String        @db.VarChar(50)
+  Description String 
+
+  CreateDate  DateTime      @default(now()) @db.Timestamp(6)
+  UpdateDate  DateTime?     @updatedAt @db.Timestamp(6)
+
+  OrderRecord OrderRecord[]
+}
+
+model Partner {
+  PartnerID       Int               @id @default(autoincrement()) @unique
+  Name            String            @db.VarChar(100)
+  Description     String 
+  ContactPerson   String             @db.VarChar(50)
+  ContactEmail    String?            @db.VarChar(50)
+  ContactPhone    String?            @db.VarChar(12)
+
+  CreateDate      DateTime          @default(now()) @db.Timestamp(6)
+  UpdateDate      DateTime?         @updatedAt @db.Timestamp(6)
+
+  PartnerLocation PartnerLocation[]
+}
+
+model PartnerLocation {
+  LocationID        Int                @id @default(autoincrement()) @unique
+  PartnerID         Int 
+  LocationName      String             @db.VarChar(100)
+  Address           String?            @db.VarChar(255)
+  City              String?            @db.VarChar(100)
+  State             String?            @db.VarChar(100)
+  ZipCode           String?            @db.VarChar(20)
+  Country           String?            @db.VarChar(100)
+  Latitude          Decimal?           @db.Decimal(10, 8)
+  Longitude         Decimal?           @db.Decimal(11, 8)
+  ContactPerson     String?            @db.VarChar(50)
+  ContactEmail      String?            @db.VarChar(50)
+  ContactPhone      String?            @db.VarChar(12)
+
+  CreateDate        DateTime           @default(now()) @db.Timestamp(6)
+  UpdateDate        DateTime?          @updatedAt @db.Timestamp(6)
+
+  AssortmentSegment AssortmentSegment[]
+  Employee          Employee[]
+  Feedback          Feedback[]
+  OrderRecord       OrderRecord[]
+  Partner           Partner            @relation(fields: [PartnerID], references: [PartnerID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model PointExpiryPolicy {
+  PolicyID     Int            @id @default(autoincrement()) @unique
+  ExpiryPeriod Int 
+  ExpiryType   String         @db.VarChar(50)
+
+  CreateDate   DateTime       @default(now()) @db.Timestamp(6)
+  UpdateDate   DateTime?      @updatedAt @db.Timestamp(6)
+
+  LoyaltyPoint LoyaltyPoint[]
+}
+
+model PointTransaction {
+  PointTransactionID   Int            @id @default(autoincrement()) @unique
+  OrderRecordID        Int 
+  LoyaltyCardID        Int 
+  PointTransactionType String         @db.VarChar(50)
+  PointsChange         Int 
+  OrderDate            DateTime       @default(now()) @db.Timestamp(6)
+
+  CreateDate           DateTime       @default(now()) @db.Timestamp(6)
+  UpdateDate           DateTime?      @updatedAt @db.Timestamp(6)
+
+  LoyaltyPoint         LoyaltyPoint?
+  LoyaltyCard          LoyaltyCard    @relation(fields: [LoyaltyCardID], references: [LoyaltyCardID], onDelete: NoAction, onUpdate: NoAction)
+  OrderRecord          OrderRecord?   @relation(fields: [OrderRecordID], references: [OrderID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model PromoCampaign {
+  PromoCampaignID         Int                       @id @default(autoincrement()) @unique
+  PromoCampaignName       String                    @db.VarChar(100)
+  Description             String 
+  StartDate               DateTime                  @db.Date
+  EndDate                 DateTime                  @db.Date
+
+  CreateDate              DateTime                  @default(now()) @db.Timestamp(6)
+  UpdateDate              DateTime?                 @updatedAt @db.Timestamp(6)
+
+  OrderDetail             OrderDetail[]
+  PromoCampaignRedemption PromoCampaignRedemption[]
+}
+
+model PromoCampaignRedemption {
+  RedemptionID    Int            @id @default(autoincrement()) @unique
+  PromoCampaignID Int 
+  LoyaltyCardID   Int 
+  RedeemedDate    DateTime       @db.Date
+
+  CreateDate      DateTime       @default(now()) @db.Timestamp(6)
+  UpdateDate      DateTime?      @updatedAt @db.Timestamp(6)
+
+  LoyaltyCard     LoyaltyCard    @relation(fields: [LoyaltyCardID], references: [LoyaltyCardID], onDelete: NoAction, onUpdate: NoAction)
+  PromoCampaign   PromoCampaign  @relation(fields: [PromoCampaignID], references: [PromoCampaignID], onDelete: NoAction, onUpdate: NoAction)
+}
