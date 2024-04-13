@@ -1,37 +1,51 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { LoyaltyUserService } from './loyalty-user.service';
-import { LoyaltyUser } from 'src/@generated/prisma-nestjs-graphql/loyalty-user/loyalty-user.model';
-import { LoyaltyUserUpdateInput } from 'src/@generated/prisma-nestjs-graphql/loyalty-user/loyalty-user-update.input';
+import { LoyaltyUserEntity } from './entities/loyalty-user.entity';
+import { UpdateLoyaltyUserInput } from './dto/update-loyalty-user.input';
+import { CreateLoyaltyUserInput } from './dto/create-loyalty-user.input';
 
-@Resolver(() => LoyaltyUser)
+@Resolver(() => LoyaltyUserEntity)
 export class LoyaltyUserResolver {
   constructor(private readonly usersService: LoyaltyUserService) {}
   // TODO - handle deleted users
 
-  @Query(() => [LoyaltyUser], { name: 'users' })
-  findAll(): Promise<LoyaltyUser[]> {
+  @Query(() => [LoyaltyUserEntity], { name: 'LoyaltyUsers' })
+  findAll(): Promise<LoyaltyUserEntity[]> {
     return this.usersService.findAll();
   }
 
-  @Query(() => LoyaltyUser, { name: 'user', nullable: true })
+  @Query(() => LoyaltyUserEntity, { name: 'LoyaltyUser', nullable: true })
   findOne(
     @Args('id', { type: () => Int }) id: number,
-  ): Promise<LoyaltyUser | null> {
+  ): Promise<LoyaltyUserEntity | null> {
     return this.usersService.findOne(id);
   }
 
-  @Mutation(() => LoyaltyUser)
+  @Mutation(() => LoyaltyUserEntity)
+  createUser(
+    @Args('createData') createData: CreateLoyaltyUserInput,
+  ): Promise<LoyaltyUserEntity> {
+    console.log(createData);
+    return this.usersService.create(createData);
+  }
+
+  @Mutation(() => LoyaltyUserEntity)
   updateUser(
     @Args('id', {
       type: () => Int,
     })
     id: number,
-    @Args('updateData') updateData: LoyaltyUserUpdateInput,
-  ): Promise<LoyaltyUser> {
+    @Args('updateData') updateData: UpdateLoyaltyUserInput,
+  ): Promise<LoyaltyUserEntity> {
+    const user = this.usersService.findOne(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
     return this.usersService.update(id, updateData);
   }
 
-  @Mutation(() => LoyaltyUser)
+  @Mutation(() => LoyaltyUserEntity)
   removeUser(@Args('id', { type: () => Int }) id: number) {
     return this.usersService.remove(id);
   }

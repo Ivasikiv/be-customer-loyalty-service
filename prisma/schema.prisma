@@ -102,7 +102,7 @@ model LoyaltyPoint {
   PolicyID           Int 
   PointsAmount       Int 
   AccrualDateTime    DateTime           @default(now()) @db.Timestamp(6)
-  WithdrawalDateTime DateTime?          @default(now()) @db.Timestamp(6)
+  WithdrawalDateTime DateTime?          @db.Timestamp(6)
 
   CreateDate         DateTime           @default(now()) @db.Timestamp(6)
   UpdateDate         DateTime?          @updatedAt @db.Timestamp(6)
@@ -259,7 +259,7 @@ model PointTransaction {
   LoyaltyCardID        Int 
   PointTransactionType String         @db.VarChar(50)
   PointsChange         Int 
-  OrderDate            DateTime       @default(now()) @db.Timestamp(6)
+  OrderDate            DateTime       @db.Timestamp(6)
 
   CreateDate           DateTime       @default(now()) @db.Timestamp(6)
   UpdateDate           DateTime?      @updatedAt @db.Timestamp(6)
