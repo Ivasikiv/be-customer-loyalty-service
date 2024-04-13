@@ -228,9 +228,6 @@ model PartnerLocation {
   Country           String?            @db.VarChar(100)
   Latitude          Decimal?           @db.Decimal(10, 8)
   Longitude         Decimal?           @db.Decimal(11, 8)
-  ContactPerson     String?            @db.VarChar(50)
-  ContactEmail      String?            @db.VarChar(50)
-  ContactPhone      String?            @db.VarChar(12)
 
   CreateDate        DateTime           @default(now()) @db.Timestamp(6)
   UpdateDate        DateTime?          @updatedAt @db.Timestamp(6)
