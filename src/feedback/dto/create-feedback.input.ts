@@ -1,5 +1,5 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
-import { IsInt, IsString, IsOptional, IsDate } from 'class-validator';
+import { IsInt, IsString, IsOptional } from 'class-validator';
 
 @InputType()
 export class CreateFeedbackInput {

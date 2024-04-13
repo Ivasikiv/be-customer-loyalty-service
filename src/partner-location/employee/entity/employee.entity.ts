@@ -1,6 +1,4 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-// import { PartnerLocation } from './partner-location.entity';
-// import { OrderRecord } from './order-record.entity';
 
 @ObjectType()
 export class EmployeeEntity {
@@ -27,16 +25,4 @@ export class EmployeeEntity {
 
   @Field({ nullable: true })
   EmploymentEndDate?: Date;
-
-  //   @Field()
-  //   CreateDate: Date;
-
-  //   @Field({ nullable: true })
-  //   UpdateDate?: Date;
-
-  //   @Field(() => PartnerLocation)
-  //   PartnerLocation: PartnerLocation;
-
-  //   @Field(() => [OrderRecord])
-  //   OrderRecord: OrderRecord[];
 }

@@ -1,5 +1,4 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-// import { PartnerLocation } from './partner-location.entity';
 
 @ObjectType()
 export class PartnerEntity {
@@ -20,13 +19,4 @@ export class PartnerEntity {
 
   @Field({ nullable: true })
   ContactPhone?: string;
-
-  //   @Field()
-  //   CreateDate: Date;
-
-  //   @Field({ nullable: true })
-  //   UpdateDate?: Date;
-
-  //   @Field(() => [PartnerLocation])
-  //   PartnerLocation: PartnerLocation[];
 }

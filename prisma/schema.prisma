@@ -70,7 +70,7 @@ model LoyaltyCard {
   CurrentBalance          Int                       @default(0)
   FirstUsage              DateTime?                 @db.Timestamp(6)
   LastUsage               DateTime?                 @db.Timestamp(6)
-  Status                  String                    @db.VarChar(20)
+  Status                  String?                   @default("Active") @db.VarChar(20)
 
   CreateDate              DateTime                  @default(now()) @db.Timestamp(6)
   UpdateDate              DateTime?                 @updatedAt @db.Timestamp(6)

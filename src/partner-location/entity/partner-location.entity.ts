@@ -1,9 +1,8 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-// import { Partner } from './partner.entity';
-// import { AssortmentSegment } from './assortment-segment.entity';
-// import { Employee } from './employee.entity';
-// import { Feedback } from './feedback.entity';
-// import { OrderRecord } from './order-record.entity';
+import { GraphQLDecimal } from 'prisma-graphql-type-decimal';
+import { Decimal } from '@prisma/client/runtime/library';
+import { transformToDecimal } from 'prisma-graphql-type-decimal';
+import { Type, Transform } from 'class-transformer';
 
 @ObjectType()
 export class PartnerLocationEntity {
@@ -31,39 +30,13 @@ export class PartnerLocationEntity {
   @Field({ nullable: true })
   Country?: string;
 
-  @Field({ nullable: true })
-  Latitude?: number;
+  @Field(() => GraphQLDecimal, { nullable: true })
+  @Type(() => Object)
+  @Transform(transformToDecimal)
+  Latitude?: Decimal;
 
-  @Field({ nullable: true })
-  Longitude?: number;
-
-  @Field({ nullable: true })
-  ContactPerson?: string;
-
-  @Field({ nullable: true })
-  ContactEmail?: string;
-
-  @Field({ nullable: true })
-  ContactPhone?: string;
-
-  //   @Field()
-  //   CreateDate: Date;
-
-  //   @Field({ nullable: true })
-  //   UpdateDate?: Date;
-
-  //   @Field(() => [AssortmentSegment])
-  //   AssortmentSegment: AssortmentSegment[];
-
-  //   @Field(() => [Employee])
-  //   Employee: Employee[];
-
-  //   @Field(() => [Feedback])
-  //   Feedback: Feedback[];
-
-  //   @Field(() => [OrderRecord])
-  //   OrderRecord: OrderRecord[];
-
-  //   @Field(() => Partner)
-  //   Partner: Partner;
+  @Field(() => GraphQLDecimal, { nullable: true })
+  @Type(() => Object)
+  @Transform(transformToDecimal)
+  Longitude?: Decimal;
 }

@@ -9,6 +9,10 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { LoyaltyUserModule } from './loyalty-user/loyalty-user.module';
+import { LoyaltyCardTypeModule } from './loyalty-card/loyalty-card-type/loyalty-card-type.module';
+import { LoyaltyCardModule } from './loyalty-card/loyalty-card.module';
+import { FeedbackModule } from './feedback/feedback.module';
+import { PromoCampaignModule } from './promo-campaign/promo-campaign.module';
 
 @Module({
   imports: [
@@ -26,6 +30,10 @@ import { LoyaltyUserModule } from './loyalty-user/loyalty-user.module';
     }),
     PrismaModule,
     LoyaltyUserModule,
+    LoyaltyCardTypeModule,
+    LoyaltyCardModule,
+    FeedbackModule,
+    PromoCampaignModule,
   ],
   controllers: [AppController],
   providers: [

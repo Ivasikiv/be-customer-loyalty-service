@@ -1,11 +1,16 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsString, IsDecimal } from 'class-validator';
+import { IsString } from 'class-validator';
+import { GraphQLDecimal } from 'prisma-graphql-type-decimal';
+import { Decimal } from '@prisma/client/runtime/library';
+import { transformToDecimal } from 'prisma-graphql-type-decimal';
+import { Type, Transform } from 'class-transformer';
 
 @InputType()
 export class CreateLoyaltyCardTypeInput {
-  @Field()
-  @IsDecimal()
-  DiscountPercentage: number;
+  @Field(() => GraphQLDecimal)
+  @Type(() => Object)
+  @Transform(transformToDecimal)
+  DiscountPercentage: Decimal;
 
   @Field()
   @IsString()

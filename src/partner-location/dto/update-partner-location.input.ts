@@ -1,6 +1,10 @@
 import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
-import { IsInt, IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsInt, IsString, IsOptional } from 'class-validator';
 import { PartnerLocationEntity } from '../entity/partner-location.entity';
+import { GraphQLDecimal } from 'prisma-graphql-type-decimal';
+import { Decimal } from '@prisma/client/runtime/library';
+import { transformToDecimal } from 'prisma-graphql-type-decimal';
+import { Type, Transform } from 'class-transformer';
 
 @InputType()
 export class UpdatePartnerLocationInput extends PartialType(
@@ -41,28 +45,15 @@ export class UpdatePartnerLocationInput extends PartialType(
   @IsString()
   Country?: string;
 
-  @Field({ nullable: true })
+  @Field(() => GraphQLDecimal, { nullable: true })
+  @Type(() => Object)
+  @Transform(transformToDecimal)
   @IsOptional()
-  @IsNumber()
-  Latitude?: number;
+  Latitude?: Decimal;
 
-  @Field({ nullable: true })
+  @Field(() => GraphQLDecimal, { nullable: true })
+  @Type(() => Object)
+  @Transform(transformToDecimal)
   @IsOptional()
-  @IsNumber()
-  Longitude?: number;
-
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
-  ContactPerson?: string;
-
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
-  ContactEmail?: string;
-
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
-  ContactPhone?: string;
+  Longitude?: Decimal;
 }

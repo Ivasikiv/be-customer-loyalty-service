@@ -1,5 +1,5 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
-import { IsInt, IsOptional, IsDate } from 'class-validator';
+import { IsInt, IsOptional } from 'class-validator';
 
 @InputType()
 export class CreateLoyaltyPointInput {

@@ -1,11 +1,9 @@
 import { InputType, Field, PartialType } from '@nestjs/graphql';
 import { IsString, IsDate, IsOptional } from 'class-validator';
-import { CreatePromoCampaignEntity } from '../entity/promo-campaign.entity';
+import { PromoCampaignEntity } from '../entity/promo-campaign.entity';
 
 @InputType()
-export class UpdatePromoCampaignInput extends PartialType(
-  CreatePromoCampaignEntity,
-) {
+export class UpdatePromoCampaignInput extends PartialType(PromoCampaignEntity) {
   @Field({ nullable: true })
   @IsString()
   @IsOptional()

@@ -1,7 +1,4 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-// import { LoyaltyUser } from './loyalty-user.entity';
-// import { OrderRecord } from './order-record.entity';
-// import { PartnerLocation } from './partner-location.entity';
 
 @ObjectType()
 export class FeedbackEntity {
@@ -37,13 +34,4 @@ export class FeedbackEntity {
 
   @Field({ nullable: true })
   UpdateDate?: Date;
-
-  //   @Field(() => LoyaltyUser)
-  //   LoyaltyUser: LoyaltyUser;
-
-  //   @Field(() => OrderRecord)
-  //   OrderRecord: OrderRecord;
-
-  //   @Field(() => PartnerLocation)
-  //   PartnerLocation: PartnerLocation;
 }

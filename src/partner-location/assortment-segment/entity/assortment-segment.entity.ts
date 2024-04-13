@@ -1,6 +1,4 @@
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
-// import { PartnerLocation } from './partner-location.entity';
-// import { OrderDetail } from './order-detail.entity';
 
 @ObjectType()
 export class AssortmentSegmentEntity {
@@ -18,16 +16,4 @@ export class AssortmentSegmentEntity {
 
   @Field(() => Int)
   Points: number;
-
-  //   @Field()
-  //   CreateDate: Date;
-
-  //   @Field({ nullable: true })
-  //   UpdateDate?: Date;
-
-  //   @Field(() => PartnerLocation)
-  //   PartnerLocation: PartnerLocation;
-
-  //   @Field(() => [OrderDetail])
-  //   OrderDetail: OrderDetail[];
 }

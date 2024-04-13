@@ -1,15 +1,20 @@
 import { InputType, Field, PartialType } from '@nestjs/graphql';
-import { IsString, IsDecimal, IsOptional } from 'class-validator';
+import { IsString, IsOptional } from 'class-validator';
 import { LoyaltyCardTypeEntity } from '../entity/loyalty-card-type.entity';
+import { GraphQLDecimal } from 'prisma-graphql-type-decimal';
+import { Decimal } from '@prisma/client/runtime/library';
+import { transformToDecimal } from 'prisma-graphql-type-decimal';
+import { Type, Transform } from 'class-transformer';
 
 @InputType()
 export class UpdateLoyaltyCardTypeInput extends PartialType(
   LoyaltyCardTypeEntity,
 ) {
-  @Field({ nullable: true })
+  @Field(() => GraphQLDecimal, { nullable: true })
   @IsOptional()
-  @IsDecimal()
-  DiscountPercentage?: number;
+  @Type(() => Object)
+  @Transform(transformToDecimal)
+  DiscountPercentage?: Decimal;
 
   @Field({ nullable: true })
   @IsOptional()
