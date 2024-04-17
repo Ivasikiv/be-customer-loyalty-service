@@ -57,3 +57,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 src/schema.gql
 @generated
+db-data-sets/data-sets-json
+db-data-sets/db-data

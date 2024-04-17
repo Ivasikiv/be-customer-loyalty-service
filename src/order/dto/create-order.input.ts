@@ -1,5 +1,13 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
-import { IsInt, IsOptional, IsString, IsDate } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  IsDate,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { CreateOrderDetailInput } from '../order-detail/dto/create-order-detail.input';
 
 @InputType()
 export class CreateOrderRecordInput {
@@ -27,4 +35,9 @@ export class CreateOrderRecordInput {
   @Field()
   @IsDate()
   OrderDateTime: Date;
+
+  @Field(() => [CreateOrderDetailInput], { nullable: true })
+  @ValidateNested({ each: true })
+  @Type(() => CreateOrderDetailInput)
+  OrderDetails: CreateOrderDetailInput[];
 }

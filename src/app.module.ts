@@ -13,6 +13,7 @@ import { LoyaltyCardTypeModule } from './loyalty-card/loyalty-card-type/loyalty-
 import { LoyaltyCardModule } from './loyalty-card/loyalty-card.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { PromoCampaignModule } from './promo-campaign/promo-campaign.module';
+import { OrderRecordModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { PromoCampaignModule } from './promo-campaign/promo-campaign.module';
     LoyaltyCardModule,
     FeedbackModule,
     PromoCampaignModule,
+    OrderRecordModule,
   ],
   controllers: [AppController],
   providers: [

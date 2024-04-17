@@ -1,5 +1,5 @@
-import { InputType, Field, Int, Float } from '@nestjs/graphql';
-import { IsInt, IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { InputType, Field, Int } from '@nestjs/graphql';
+import { IsInt, IsString, IsNotEmpty } from 'class-validator';
 
 @InputType()
 export class CreateAssortmentSegmentInput {
@@ -11,10 +11,6 @@ export class CreateAssortmentSegmentInput {
   @IsString()
   @IsNotEmpty()
   AssortmentSegmentType: string;
-
-  @Field(() => Float)
-  @IsNumber()
-  Price: number;
 
   @Field(() => Int)
   @IsInt()

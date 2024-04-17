@@ -10,6 +10,10 @@ export class UpdatePromoCampaignInput extends PartialType(PromoCampaignEntity) {
   PromoCampaignName?: string;
 
   @Field({ nullable: true })
+  @IsOptional()
+  PartnerID?: number;
+
+  @Field({ nullable: true })
   @IsString()
   @IsOptional()
   Description?: string;

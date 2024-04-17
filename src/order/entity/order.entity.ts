@@ -1,11 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-// import { Feedback } from './feedback.entity';
-// import { OrderDetail } from './order-detail.entity';
-// import { PartnerLocation } from './partner-location.entity';
-// import { LoyaltyCard } from './loyalty-card.entity';
-// import { OrderType } from './order-type.entity';
-// import { Employee } from './employee.entity';
-// import { PointTransaction } from './point-transaction.entity';
+import { OrderDetailEntity } from '../order-detail/entity/order-detail.entity';
 
 @ObjectType()
 export class OrderRecordEntity {
@@ -30,30 +24,6 @@ export class OrderRecordEntity {
   @Field()
   OrderDateTime: Date;
 
-  //   @Field()
-  //   CreateDate: Date;
-
-  //   @Field({ nullable: true })
-  //   UpdateDate?: Date;
-
-  //   @Field(() => Feedback, { nullable: true })
-  //   Feedback?: Feedback;
-
-  //   @Field(() => [OrderDetail])
-  //   OrderDetail: OrderDetail[];
-
-  //   @Field(() => PartnerLocation)
-  //   PartnerLocation: PartnerLocation;
-
-  //   @Field(() => LoyaltyCard)
-  //   LoyaltyCard: LoyaltyCard;
-
-  //   @Field(() => OrderType)
-  //   OrderType: OrderType;
-
-  //   @Field(() => Employee)
-  //   Employee: Employee;
-
-  //   @Field(() => [PointTransaction])
-  //   PointTransaction: PointTransaction[];
+  @Field(() => [OrderDetailEntity], { nullable: true })
+  OrderDetails?: OrderDetailEntity[];
 }

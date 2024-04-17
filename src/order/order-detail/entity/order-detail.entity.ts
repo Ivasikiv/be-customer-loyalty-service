@@ -1,7 +1,4 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-// import { AssortmentSegment } from './assortment-segment.entity';
-// import { OrderRecord } from './order-record.entity';
-// import { PromoCampaign } from './promo-campaign.entity';
 
 @ObjectType()
 export class OrderDetailEntity {
@@ -15,6 +12,9 @@ export class OrderDetailEntity {
   AssortmentSegmentID: number;
 
   @Field()
+  ItemName: string;
+
+  @Field()
   PromoCampaignID: number;
 
   @Field()
@@ -22,19 +22,4 @@ export class OrderDetailEntity {
 
   @Field()
   Price: number;
-
-  //   @Field()
-  //   CreateDate: Date;
-
-  //   @Field({ nullable: true })
-  //   UpdateDate?: Date;
-
-  //   @Field(() => AssortmentSegment)
-  //   AssortmentSegment: AssortmentSegment;
-
-  //   @Field(() => OrderRecord)
-  //   OrderRecord: OrderRecord;
-
-  //   @Field(() => PromoCampaign)
-  //   PromoCampaign: PromoCampaign;
 }

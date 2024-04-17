@@ -1,5 +1,4 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-// import { OrderRecord } from './order-record.entity';
 
 @ObjectType()
 export class OrderTypeEntity {
@@ -11,13 +10,4 @@ export class OrderTypeEntity {
 
   @Field()
   Description: string;
-
-  //   @Field()
-  //   CreateDate: Date;
-
-  //   @Field({ nullable: true })
-  //   UpdateDate?: Date;
-
-  //   @Field(() => [OrderRecord])
-  //   OrderRecord: OrderRecord[];
 }

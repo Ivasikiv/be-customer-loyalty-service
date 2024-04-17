@@ -9,6 +9,10 @@ export class CreatePromoCampaignInput {
   PromoCampaignName: string;
 
   @Field()
+  @IsNotEmpty()
+  PartnerID: number;
+
+  @Field()
   @IsString()
   Description: string;
 

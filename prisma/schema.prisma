@@ -16,13 +16,12 @@ model AssortmentSegment {
   AssortmentSegmentID   Int             @id @default(autoincrement()) @unique
   PartnerLocationID     Int
   AssortmentSegmentType String          @db.VarChar(50)
-  Price                 Float
   Points                Int
 
   CreateDate            DateTime        @default(now()) @db.Timestamp(6)
   UpdateDate            DateTime?       @updatedAt @db.Timestamp(6)
 
-  PartnerLocation       PartnerLocation @relation(fields: [AssortmentSegmentID], references: [LocationID], onDelete: NoAction, onUpdate: NoAction)
+  PartnerLocation       PartnerLocation @relation(fields: [PartnerLocationID], references: [LocationID], onDelete: NoAction, onUpdate: NoAction)
   OrderDetail           OrderDetail[]
 }
 
@@ -116,8 +115,8 @@ model LoyaltyUser {
   LoyaltyUserID Int            @id @default(autoincrement()) @unique
   FirstName     String         @db.VarChar(50)
   LastName      String         @db.VarChar(50)
-  Email         String         @db.VarChar(100) @unique
-  Phone         String?        @db.VarChar(12)  @unique
+  Email         String         @db.VarChar(100) 
+  Phone         String?        @db.VarChar(14)  
   Address       String?        @db.VarChar(255)
   BirthDate     DateTime?      @db.Date
 
@@ -159,7 +158,8 @@ model OrderDetail {
   OrderDetailID       Int                @id @default(autoincrement()) @unique
   OrderID             Int 
   AssortmentSegmentID Int 
-  PromoCampaignID     Int 
+  PromoCampaignID     Int? 
+  ItemName            String             @db.VarChar(80)
   Quantity            Int 
   Price               Float 
 
@@ -168,7 +168,7 @@ model OrderDetail {
 
   AssortmentSegment   AssortmentSegment  @relation(fields: [AssortmentSegmentID], references: [AssortmentSegmentID], onDelete: NoAction, onUpdate: NoAction)
   OrderRecord         OrderRecord        @relation(fields: [OrderID], references: [OrderID], onDelete: NoAction, onUpdate: NoAction)
-  PromoCampaign       PromoCampaign      @relation(fields: [PromoCampaignID], references: [PromoCampaignID], onDelete: NoAction, onUpdate: NoAction)
+  PromoCampaign       PromoCampaign?      @relation(fields: [PromoCampaignID], references: [PromoCampaignID], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model OrderRecord {
@@ -185,10 +185,10 @@ model OrderRecord {
 
   Feedback         Feedback?
   OrderDetail      OrderDetail[]
-  PartnerLocation  PartnerLocation    @relation(fields: [LocationID], references: [LocationID], onDelete: NoAction, onUpdate: NoAction)
-  LoyaltyCard      LoyaltyCard        @relation(fields: [LoyaltyCardID], references: [LoyaltyCardID], onDelete: NoAction, onUpdate: NoAction)
-  OrderType        OrderType          @relation(fields: [OrderTypeID], references: [OrderTypeID], onDelete: NoAction, onUpdate: NoAction)
-  Employee         Employee           @relation(fields: [SellerID], references: [EmployeeID], onDelete: NoAction, onUpdate: NoAction)
+  PartnerLocation  PartnerLocation?    @relation(fields: [LocationID], references: [LocationID], onDelete: NoAction, onUpdate: NoAction)
+  LoyaltyCard      LoyaltyCard?        @relation(fields: [LoyaltyCardID], references: [LoyaltyCardID], onDelete: NoAction, onUpdate: NoAction)
+  OrderType        OrderType?          @relation(fields: [OrderTypeID], references: [OrderTypeID], onDelete: NoAction, onUpdate: NoAction)
+  Employee         Employee?           @relation(fields: [SellerID], references: [EmployeeID], onDelete: NoAction, onUpdate: NoAction)
   PointTransaction PointTransaction[]
 }
 
@@ -209,12 +209,13 @@ model Partner {
   Description     String 
   ContactPerson   String             @db.VarChar(50)
   ContactEmail    String?            @db.VarChar(50)
-  ContactPhone    String?            @db.VarChar(12)
+  ContactPhone    String?            @db.VarChar(14)
 
   CreateDate      DateTime          @default(now()) @db.Timestamp(6)
   UpdateDate      DateTime?         @updatedAt @db.Timestamp(6)
 
   PartnerLocation PartnerLocation[]
+  PromoCampaigns PromoCampaign[]
 }
 
 model PartnerLocation {
@@ -232,7 +233,7 @@ model PartnerLocation {
   CreateDate        DateTime           @default(now()) @db.Timestamp(6)
   UpdateDate        DateTime?          @updatedAt @db.Timestamp(6)
 
-  AssortmentSegment AssortmentSegment[]
+  AssortmentSegments AssortmentSegment[]
   Employee          Employee[]
   Feedback          Feedback[]
   OrderRecord       OrderRecord[]
@@ -268,6 +269,7 @@ model PointTransaction {
 
 model PromoCampaign {
   PromoCampaignID         Int                       @id @default(autoincrement()) @unique
+  PartnerID               Int
   PromoCampaignName       String                    @db.VarChar(100)
   Description             String 
   StartDate               DateTime                  @db.Date
@@ -276,6 +278,8 @@ model PromoCampaign {
   CreateDate              DateTime                  @default(now()) @db.Timestamp(6)
   UpdateDate              DateTime?                 @updatedAt @db.Timestamp(6)
 
+  Partner                 Partner                   @relation(fields: [PartnerID], references: [PartnerID])
+  
   OrderDetail             OrderDetail[]
   PromoCampaignRedemption PromoCampaignRedemption[]
 }

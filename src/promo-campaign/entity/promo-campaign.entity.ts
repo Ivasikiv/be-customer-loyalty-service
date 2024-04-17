@@ -6,6 +6,9 @@ export class PromoCampaignEntity {
   PromoCampaignID: number;
 
   @Field()
+  PartnerID: number;
+
+  @Field()
   PromoCampaignName: string;
 
   @Field()
