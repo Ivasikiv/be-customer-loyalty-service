@@ -24,6 +24,14 @@ export class PointTransactionService {
     });
   }
 
+  async findByOrderID(
+    orderID: number,
+  ): Promise<PointTransactionEntity[] | null> {
+    return this.prisma.pointTransaction.findMany({
+      where: { OrderRecordID: orderID },
+    });
+  }
+
   async update(
     id: number,
     data: UpdatePointTransactionInput,

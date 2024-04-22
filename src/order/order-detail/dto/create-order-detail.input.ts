@@ -1,5 +1,5 @@
 import { InputType, Field, Int, Float } from '@nestjs/graphql';
-import { IsInt, IsNumber, IsString, IsNotEmpty } from 'class-validator';
+import { IsInt, IsNumber, IsString, IsNotEmpty, IsOptional } from 'class-validator';
 
 @InputType()
 export class CreateOrderDetailInput {
@@ -13,7 +13,8 @@ export class CreateOrderDetailInput {
 
   @Field(() => Int)
   @IsInt()
-  PromoCampaignID: number;
+  @IsOptional()
+  PromoCampaignID?: number;
 
   @Field()
   @IsString()

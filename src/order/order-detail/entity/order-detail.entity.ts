@@ -14,7 +14,7 @@ export class OrderDetailEntity {
   @Field()
   ItemName: string;
 
-  @Field()
+  @Field({ nullable: true })
   PromoCampaignID: number;
 
   @Field()

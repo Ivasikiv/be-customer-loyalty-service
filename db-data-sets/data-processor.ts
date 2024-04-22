@@ -214,7 +214,7 @@ export class DataProcessor {
       const address = faker.location.streetAddress();
       const birthDate = faker.date.between({
         from: '1970-01-01',
-        to: '2005-12-31',
+        to: '2000-12-31',
       });
 
       const loyaltyUser = {

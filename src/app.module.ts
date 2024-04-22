@@ -14,6 +14,14 @@ import { LoyaltyCardModule } from './loyalty-card/loyalty-card.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { PromoCampaignModule } from './promo-campaign/promo-campaign.module';
 import { OrderRecordModule } from './order/order.module';
+import { LoyaltyPointModule } from './loyalty-point/loyalty-point.module';
+import { OrderDetailModule } from './order/order-detail/order-detail.module';
+import { OrderTypeModule } from './order/order-type/order-type.module';
+import { AssortmentSegmentModule } from './partner-location/assortment-segment/assortment-segment.module';
+import { EmployeeModule } from './partner-location/employee/employee.module';
+import { PartnerModule } from './partner-location/partner/partner.module';
+import { PartnerLocationModule } from './partner-location/partner-location.module';
+import { PointTransactionModule } from './point-transaction/point-transaction.module';
 
 @Module({
   imports: [
@@ -30,12 +38,20 @@ import { OrderRecordModule } from './order/order.module';
       load: [configuration],
     }),
     PrismaModule,
+    FeedbackModule,
+    LoyaltyCardModule,
+    LoyaltyPointModule,
     LoyaltyUserModule,
     LoyaltyCardTypeModule,
-    LoyaltyCardModule,
-    FeedbackModule,
-    PromoCampaignModule,
     OrderRecordModule,
+    OrderDetailModule,
+    OrderTypeModule,
+    AssortmentSegmentModule,
+    EmployeeModule,
+    PartnerModule,
+    PartnerLocationModule,
+    PointTransactionModule,
+    PromoCampaignModule,
   ],
   controllers: [AppController],
   providers: [

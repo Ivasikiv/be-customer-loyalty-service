@@ -27,6 +27,13 @@ export class PointTransactionResolver {
     return this.service.findOne(id);
   }
 
+  @Query(() => [PointTransactionEntity], { name: 'pointTransactionByOrderID' })
+  async pointTransactionByOrderID(
+    @Args('orderID', { type: () => Int }) orderID: number,
+  ): Promise<PointTransactionEntity[]> {
+    return this.service.findByOrderID(orderID);
+  }
+
   @Mutation(() => PointTransactionEntity)
   async updatePointTransaction(
     @Args('id', { type: () => Int }) id: number,
