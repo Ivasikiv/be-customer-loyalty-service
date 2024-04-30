@@ -9,7 +9,12 @@ async function bootstrap() {
   app.enableShutdownHooks();
 
   const corsOptions: CorsOptions = {
-    origin: true,
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:3002',
+      'https://dimaivas0511.retool.com/',
+    ],
     methods: ['GET', 'POST', 'PUT', 'PATCH'],
     credentials: true,
   };

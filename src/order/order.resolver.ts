@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { OrderRecordEntity } from './entity/order.entity';
 import { OrderRecordService } from './order.service';
 import { CreateOrderRecordInput } from './dto/create-order.input';
+import { CreateOrderDetailInput } from './order-detail/dto/create-order-detail.input';
 import { UpdateOrderRecordInput } from './dto/update-order.input';
 // import { OrderRecord } from 'src/@generated/prisma-nestjs-graphql/order-record/order-record.model';
 // import { OrderRecordCreateInput } from 'src/@generated/prisma-nestjs-graphql/order-record/order-record-create.input';
@@ -15,6 +16,16 @@ export class OrderRecordResolver {
     @Args('data') data: CreateOrderRecordInput,
   ): Promise<OrderRecordEntity> {
     return this.service.create(data);
+  }
+
+  @Mutation(() => String)
+  async makeOrder(
+    @Args('orderData') orderData: CreateOrderRecordInput,
+    @Args('orderDetails', { type: () => [CreateOrderDetailInput] })
+    orderDetails: CreateOrderDetailInput[],
+    @Args('pointsWithdrawn', { nullable: true }) pointsWithdrawn?: number,
+  ): Promise<string> {
+    return this.service.makeOrder(orderData, orderDetails, pointsWithdrawn);
   }
 
   // @Mutation(() => OrderRecord)

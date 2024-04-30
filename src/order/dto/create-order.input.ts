@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateOrderDetailInput } from '../order-detail/dto/create-order-detail.input';
+// import { OrderDetailCreateInput } from 'src/@generated/prisma-nestjs-graphql/order-detail/order-detail-create.input';
 
 @InputType()
 export class CreateOrderRecordInput {
@@ -36,8 +37,8 @@ export class CreateOrderRecordInput {
   @IsDate()
   OrderDateTime: Date;
 
-  @Field(() => [CreateOrderDetailInput], { nullable: true })
-  @ValidateNested({ each: true })
-  @Type(() => CreateOrderDetailInput)
-  OrderDetails: CreateOrderDetailInput[];
+  // @Field(() => [OrderDetailCreateInput], { nullable: true })
+  // @ValidateNested({ each: true })
+  // @Type(() => OrderDetailCreateInput)
+  // OrderDetails: OrderDetailCreateInput[];
 }

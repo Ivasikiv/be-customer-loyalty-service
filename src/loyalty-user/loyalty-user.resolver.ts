@@ -25,7 +25,7 @@ export class LoyaltyUserResolver {
   createUser(
     @Args('createData') createData: CreateLoyaltyUserInput,
   ): Promise<LoyaltyUserEntity> {
-    console.log(createData);
+    //console.log(createData);
     return this.usersService.create(createData);
   }
 
